@@ -18,13 +18,15 @@ CFLAGS= \
 -fno-builtin \
 -fno-exceptions \
 -fno-stack-protector \
--fno-rtti \
 -nodefaultlibs \
 -m32
 
-
 SOURCES_FILES	=	kernel.c \
+					keyboard.c \
+					utils.c	\
+					ports.c
 
+HEADER			=	inc/kernel.h
 
 SOURCES_DIR		=	src
 
@@ -33,7 +35,7 @@ SOURCES			=	$(addprefix $(SOURCES_DIR)/, $(SOURCES_FILES))
 
 OBJECTS			= 	$(SOURCES:.c=.o)
 
-$(SOURCES_DIR)/%.o: $(SOURCES_DIR)/%.c
+$(SOURCES_DIR)/%.o: $(SOURCES_DIR)/%.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all
@@ -59,6 +61,6 @@ iso: kernel
 .PHONY: fclean
 
 fclean:
-	$(RM) src/*.o $(BIN) *iso $(ISO_PATH)
+	$(RM) src/*.o *.o $(BIN) *iso $(ISO_PATH)
 
 re:				fclean all
