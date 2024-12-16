@@ -26,11 +26,11 @@ void print_nl();
 void print_string(char* str, unsigned char color);
 int strlen(char * string);
 void clear_screen(void);
+void print_hex(char * addr, int size);
 
 // Keyboard
 void print_start_cmd();
 void keyboard_handler();
 void move_cursor();
-
 
 #endif

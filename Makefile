@@ -24,9 +24,11 @@ CFLAGS= \
 SOURCES_FILES	=	kernel.c \
 					keyboard.c \
 					utils.c	\
-					ports.c
+					ports.c \
+					gdt.c
 
-HEADER			=	inc/kernel.h
+HEADERS			=	inc/kernel.h \
+					inc/gdt.h
 
 SOURCES_DIR		=	src
 
@@ -35,7 +37,7 @@ SOURCES			=	$(addprefix $(SOURCES_DIR)/, $(SOURCES_FILES))
 
 OBJECTS			= 	$(SOURCES:.c=.o)
 
-$(SOURCES_DIR)/%.o: $(SOURCES_DIR)/%.c $(HEADER)
+$(SOURCES_DIR)/%.o: $(SOURCES_DIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: all

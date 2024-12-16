@@ -8,7 +8,13 @@ section .multiboot               ;according to multiboot spec
 
 section .text
 global start
+global setGdt
 extern main                      ;defined in the C file
+
+setGdt:
+        mov eax, [esp + 4]
+        lgdt [eax]
+        ret
 
 start:
         cli                      ;block interrupts
