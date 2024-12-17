@@ -19,7 +19,8 @@ void main(void)
     move_cursor();
 
     char test[] = "coucou";
-    print_hex((char *)(GDT_ADDRESS + sizeof(struct GDTEntry) * 3), 20);
+    print_nl();
+    print_hex((char *)(GDT_ADDRESS + sizeof(struct GDTEntry) * 4), 70);
 
     while (1) {
         keyboard_handler();

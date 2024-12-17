@@ -40,24 +40,6 @@ void print_nl(){
     vga_index += 80 - (vga_index % 80);
 }
 
-void itoa_hex(unsigned int value) {
-    char buffer[9];  // Buffer pour stocker la chaîne hexadécimale (8 caractères + '\0')
-    char *p = &buffer[8]; // Pointer au bout du buffer
-    *p = '\0';  // Null terminate the string
-
-    do {
-        p--;
-        unsigned char digit = value & 0xF;  // Récupérer le dernier nibble
-        *p = (digit < 10) ? ('0' + digit) : ('a' + digit - 10);  // Convertir en ASCII
-        value >>= 4;  // Décaler vers la droite pour traiter le nibble suivant
-    } while (value != 0);  // Tant que la valeur n'est pas zéro
-
-    print_char(*p++, WHITE_COLOR);  // Afficher le caractère hexadécimal
-    while (*p) {
-        print_char(*p++, WHITE_COLOR);  // Afficher les autres caractères
-    }
-}
-
 unsigned char return_ascii(unsigned char nbr)
 {
 	if (nbr < 10)
@@ -68,26 +50,44 @@ unsigned char return_ascii(unsigned char nbr)
 
 
 
-void print_hex(char * addr, int size){
-    // <addd>: d... .. .. .. .. . .
-    // for (int i = 0; i < size; i++) {
-    //     itoa_hex(addr[i]);
-    //     print_nl();
-    // }
-
-    int index = -1;
-
-    while(index++ < 0xffff) {
-		unsigned char temp = *(addr + index);
-
-		if (temp >= 32 && temp <= 126)
-		{
-			print_char(temp, WHITE_COLOR);
-		}
-		else{
-            print_char(return_ascii(temp / 16), WHITE_COLOR);
-			print_char(return_ascii(temp % 16), WHITE_COLOR);
+void print_hex(char *addr, int size) {
+    for (int i = 0; i < size; i += 16) { // Parcours par blocs de 16 octets
+        // Afficher l'adresse mémoire en hexadécimal
+        for (int shift = 28; shift >= 0; shift -= 4) {
+            print_char(return_ascii(((unsigned int)(addr + i) >> shift) & 0xF), WHITE_COLOR);
         }
-		print_char(' ', WHITE_COLOR);
+        
+        print_string(":  ", WHITE_COLOR);
+
+        // Afficher l'hex dump
+        for (int j = 0; j < 16; j++) {
+            if (i + j < size) {
+                unsigned char temp = *(addr + i + j);
+                print_char(return_ascii(temp / 16), WHITE_COLOR);
+                print_char(return_ascii(temp % 16), WHITE_COLOR);
+            } else {
+                // Si hors des limites, alignement avec espaces
+                print_string("  ", WHITE_COLOR);
+            }
+            print_char(' ', WHITE_COLOR); // Espace entre les octets
+        }
+
+        // Séparation entre l'hex dump et les caractères ASCII
+        print_string("  ", WHITE_COLOR);
+
+        // Afficher les caractères ASCII
+        for (int j = 0; j < 16; j++) {
+            if (i + j < size) {
+                unsigned char temp = *(addr + i + j);
+                if (temp >= 32 && temp <= 126) {
+                    print_char(temp, WHITE_COLOR); // Caractère imprimable
+                } else {
+                    print_char('.', WHITE_COLOR);  // Caractère non imprimable
+                }
+            }
+        }
+
+        // Fin de ligne
+        print_nl();
     }
 }
