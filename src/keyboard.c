@@ -52,12 +52,14 @@ unsigned char get_scancode()
 int canSend = 0;
 int clicked = 0;
 int shift_key = 0;
+char buffer[512];
 
 void code_selector(unsigned char scancode){
     switch (scancode)
     {
         case 0x0E: // del
             if (vga_index % 80 != strlen(start_term)){
+                buffer[vga_index % 80 - sizeof(start_term)] = 0;
                 vga_index -= 1;
                 print_char(' ', WHITE_COLOR);
                 vga_index -= 1;
@@ -66,6 +68,9 @@ void code_selector(unsigned char scancode){
             canSend = 0;
             break;
         case 0x1C: // enter
+            // exec_command((char*)((unsigned int)(terminal_buffer + (vga_index - (vga_index % 80)))));
+            exec_command(buffer);
+            memset(buffer, sizeof(buffer));
             print_nl();
             print_start_cmd();
             clicked = 1;
@@ -76,8 +81,10 @@ void code_selector(unsigned char scancode){
                 if (scancode_map[i].scancode == scancode) {
                     if (scancode_map[i].character >= 'a' && scancode_map[i].character <= 'z' && shift_key){
                         print_char(scancode_map[i].character - 32, WHITE_COLOR);  
+                        buffer[vga_index % 80 - sizeof(start_term)] = scancode_map[i].character - 32;
                     }else{
                         print_char(scancode_map[i].character, WHITE_COLOR);  
+                        buffer[vga_index % 80 - sizeof(start_term)] = scancode_map[i].character;
                     }
                     clicked = 1;  
                     canSend = 0;
@@ -90,7 +97,7 @@ void code_selector(unsigned char scancode){
 
 void keyboard_handler() {
     unsigned char scancode;
-    
+
     scancode = get_scancode();
 
 

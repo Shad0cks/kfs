@@ -26,7 +26,6 @@ void print_char(char str, unsigned char color)
     vga_index++;
 }
 
-
 void print_string(char* str, unsigned char color)
 {
     int index = 0;
@@ -54,17 +53,16 @@ void print_hex(char *addr, int size) {
     for (int i = 0; i < size; i += 16) { // Parcours par blocs de 16 octets
         // Afficher l'adresse mémoire en hexadécimal
         for (int shift = 28; shift >= 0; shift -= 4) {
-            print_char(return_ascii(((unsigned int)(addr + i) >> shift) & 0xF), WHITE_COLOR);
+            print_char(return_ascii(((unsigned int)(addr + i) >> shift) & 0xF), CYAN);
         }
-        
         print_string(":  ", WHITE_COLOR);
 
         // Afficher l'hex dump
         for (int j = 0; j < 16; j++) {
             if (i + j < size) {
                 unsigned char temp = *(addr + i + j);
-                print_char(return_ascii(temp / 16), WHITE_COLOR);
-                print_char(return_ascii(temp % 16), WHITE_COLOR);
+                print_char(return_ascii(temp / 16), BROWN);
+                print_char(return_ascii(temp % 16), BROWN);
             } else {
                 // Si hors des limites, alignement avec espaces
                 print_string("  ", WHITE_COLOR);
@@ -80,9 +78,9 @@ void print_hex(char *addr, int size) {
             if (i + j < size) {
                 unsigned char temp = *(addr + i + j);
                 if (temp >= 32 && temp <= 126) {
-                    print_char(temp, WHITE_COLOR); // Caractère imprimable
+                    print_char(temp, GREEN); // Caractère imprimable
                 } else {
-                    print_char('.', WHITE_COLOR);  // Caractère non imprimable
+                    print_char('.', GREEN);  // Caractère non imprimable
                 }
             }
         }
@@ -90,4 +88,21 @@ void print_hex(char *addr, int size) {
         // Fin de ligne
         print_nl();
     }
+}
+
+void memset(char *ptr, unsigned int size) {
+    for (int i = 0; i < size; i++) {
+        *ptr = 0;
+        ptr++;
+    }
+}
+
+int strcmp(char* s1, char* s2) {
+    while (*s1 && *s2) {
+        if (*s1 != *s2)
+            return (0);
+        s1++;
+        s2++;
+    }
+    return ((*s1 == '\0') && (*s2 == '\0'));
 }
