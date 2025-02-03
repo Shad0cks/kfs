@@ -14,16 +14,20 @@ void clear_screen(void)
     int index = 0;
     /* there are 25 lines each of 80 columns;
        each element takes 2 bytes */
-    while (index < 80 * 25 * 2) {
+    while (index < 80 * 25) {
         terminal_buffer[index] = ' ';
-        index += 2;
+        index += 1;
     }
+    vga_index = 0;
 }
 
 void print_char(char str, unsigned char color)
-{    
+{
     terminal_buffer[vga_index] = str | (unsigned short)color << 8;
     vga_index++;
+    if (vga_index > 80 * 25) {
+        clear_screen();
+    }
 }
 
 void print_string(char* str, unsigned char color)
@@ -35,8 +39,12 @@ void print_string(char* str, unsigned char color)
     }
 }
 
-void print_nl(){
+void print_nl()
+{
     vga_index += 80 - (vga_index % 80);
+    if (vga_index >= 80 * 25) {
+        clear_screen();
+    }
 }
 
 unsigned char return_ascii(unsigned char nbr)
