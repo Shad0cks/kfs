@@ -59,7 +59,7 @@ iso: kernel
 	$(CP) $(BIN) $(BOOT_PATH)
 	$(CP) $(CFG) $(GRUB_PATH)
 	grub-file --is-x86-multiboot $(BOOT_PATH)/$(BIN)
-	grub-mkrescue -o ${NAME}.iso $(ISO_PATH)
+	grub-mkrescue --compress=xz -o ${NAME}.iso $(ISO_PATH)
 
 .PHONY: fclean
 
