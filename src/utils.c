@@ -21,6 +21,24 @@ void clear_screen(void)
     vga_index = 0;
 }
 
+void print_memory_bytes(void *address) {
+    unsigned char *ptr = (unsigned char *)address; // Treat address as a byte pointer
+
+    for (int i = 0; i < sizeof(void *); i++) {  // Print each byte in the pointer size
+        char hex[3];  // Store 2 hex digits + null terminator
+        unsigned char byte = ptr[i];
+
+        // Convert byte to hexadecimal string
+        hex[0] = "0123456789ABCDEF"[byte >> 4];   // Get high nibble
+        hex[1] = "0123456789ABCDEF"[byte & 0x0F]; // Get low nibble
+        hex[2] = '\0';
+
+        print_char(hex[0], WHITE_COLOR);
+        print_char(hex[1], WHITE_COLOR);
+        print_char(' ', WHITE_COLOR);  // Space separator
+    }
+}
+
 void print_char(char str, unsigned char color)
 {
     terminal_buffer[vga_index] = str | (unsigned short)color << 8;

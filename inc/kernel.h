@@ -35,6 +35,7 @@ void outb(unsigned short port, unsigned char value);
 
 
 // Utils
+extern void panic();
 void print_char(char str, unsigned char color);
 void print_nl();
 void print_string(char* str, unsigned char color);
@@ -43,6 +44,7 @@ void clear_screen(void);
 void print_hex(char * addr, int size);
 void memset(char *ptr, unsigned int size);
 int strcmp(char* s1, char* s2);
+void print_memory_bytes(void *address);
 
 // Keyboard
 void print_start_cmd();
@@ -82,6 +84,37 @@ extern struct idt_ptr _idtp;
 /* This exists in 'start.asm', and is used to load our IDT */
 extern void _idt_load();
 extern void _isr0();
+extern void _isr1();
+extern void _isr2();
+extern void _isr3();
+extern void _isr4();
+extern void _isr5();
+extern void _isr6();
+extern void _isr7();
+extern void _isr8();
+extern void _isr9();
+extern void _isr10();
+extern void _isr11();
+extern void _isr12();
+extern void _isr13();
+extern void _isr14();
+extern void _isr15();
+extern void _isr16();
+extern void _isr17();
+extern void _isr18();
+extern void _isr19();
+extern void _isr20();
+extern void _isr21();
+extern void _isr22();
+extern void _isr23();
+extern void _isr24();
+extern void _isr25();
+extern void _isr26();
+extern void _isr27();
+extern void _isr28();
+extern void _isr29();
+extern void _isr30();
+extern void _isr31();
 
 void _fault_handler(struct regs *r);
 void idt_install();

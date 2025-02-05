@@ -38,7 +38,7 @@ void init_gdt(){
     create_descriptor(&gdt[5], 0, 0xFFFFF, GDT_DATA_PL3);
     create_descriptor(&gdt[6], 0, 0xFFFFF, GDT_STACK_PL3);
 
-    debug_gdt();
+    // debug_gdt();
 
     setGdt(&gdtp);
 }

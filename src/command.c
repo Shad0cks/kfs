@@ -18,10 +18,34 @@ static void divByZero() {
     print_hex(&impossible, sizeof(impossible));
 }
 
+static void invalidOpCode() {
+    // Instruction that trigger an op code invalid interruption
+    __asm__ volatile ("ud2");
+}
+
+static void triggerReservedInt() {
+    // Instruction that interrupt an arbitrary interruption number
+    //   -> Here corresponding to a reserved interruption
+    __asm__ volatile ("int $0x1E");
+}
+
+static void halt() {
+    clear_screen();
+    print_string("Salut mon pote :'(", WHITE_COLOR);
+    print_nl();
+    panic();
+}
+
 void exec_command(char *command) {
     if (strcmp(command, "coucou") == 1) {
         coucou();
     } else if (strcmp(command, "0")) {
         divByZero();
+    } else if (strcmp(command, "badop")) {
+        invalidOpCode();
+    } else if (strcmp(command, "reservedInt")) {
+        triggerReservedInt();
+    } else if (strcmp(command, "halt")) {
+        halt();
     }
 }
