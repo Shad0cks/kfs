@@ -1,3 +1,9 @@
-qemu-system-x86_64 -boot d -cdrom kfs.iso -m 1024
-
-# ssh user@localhost -p2323 | pass: root
+// -no-reboot -no-shutdown
+//      -> is used to not reboot in case of system hlt for debug
+// -d
+//      -> int used to display debug of registers while the kernel is running
+// -boot d
+//      -> configure the boot order to boot on the drive/optical drive/cdrom
+// -m
+//      -> set the RAM to 1024
+qemu-system-x86_64 -no-reboot -no-shutdown -d int -boot d -cdrom kfs.iso -m 1024

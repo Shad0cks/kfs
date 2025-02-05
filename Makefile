@@ -26,6 +26,8 @@ SOURCES_FILES	=	kernel.c \
 					utils.c	\
 					ports.c \
 					command.c \
+					isrs.c \
+					idt.c \
 					gdt.c
 
 HEADERS			=	inc/kernel.h \
