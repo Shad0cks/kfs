@@ -73,8 +73,6 @@ unsigned char return_ascii(unsigned char nbr)
 		return (nbr - 10 + 'A');
 }
 
-
-
 void print_hex(char *addr, int size) {
     for (int i = 0; i < size; i += 16) { // Parcours par blocs de 16 octets
         // Afficher l'adresse mémoire en hexadécimal

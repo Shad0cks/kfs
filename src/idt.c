@@ -1,7 +1,7 @@
 #include "../inc/kernel.h"
 
-struct idt_entry idt[256];  // Definition (Memory is allocated here)
-struct idt_ptr _idtp;       // Definition (Only one copy exists)
+struct idt_entry idt[256]; // Where the IDT is actually stored
+struct idt_ptr _idtp;      // IDT ptr that will be send to the CPU
 
 void idt_set_gate(
     unsigned char num,
@@ -12,7 +12,6 @@ void idt_set_gate(
     // Assign the address of the subroutine
     idt[num].base_lo = base & 0xFFFF;
     idt[num].base_hi = (base >> 16) & 0xFFFF;
-
     // Set flags and additionnal data to the IDT entry
     idt[num].sel = sel;
     idt[num].always0 = 0;

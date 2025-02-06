@@ -20,7 +20,6 @@ ScancodeMapping scancode_map[] = {
     {0x09, '8'}, {0x0A, '9'}
 };
 
-
 void move_cursor() {
 
     // Envoi de la position basse du curseur
@@ -37,8 +36,6 @@ void move_cursor() {
 void print_start_cmd(){
     print_string(start_term, WHITE_COLOR);
 }
-
-
 
 unsigned char get_scancode()
 {

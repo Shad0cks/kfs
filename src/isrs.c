@@ -9,7 +9,6 @@ void isrs_install() {
     idt_set_gate(5, (unsigned)_isr5, 0x08, 0x8E);
     idt_set_gate(6, (unsigned)_isr6, 0x08, 0x8E);
     idt_set_gate(7, (unsigned)_isr7, 0x08, 0x8E);
-
     idt_set_gate(8, (unsigned)_isr8, 0x08, 0x8E);
     idt_set_gate(9, (unsigned)_isr9, 0x08, 0x8E);
     idt_set_gate(10, (unsigned)_isr10, 0x08, 0x8E);
@@ -18,7 +17,6 @@ void isrs_install() {
     idt_set_gate(13, (unsigned)_isr13, 0x08, 0x8E);
     idt_set_gate(14, (unsigned)_isr14, 0x08, 0x8E);
     idt_set_gate(15, (unsigned)_isr15, 0x08, 0x8E);
-
     idt_set_gate(16, (unsigned)_isr16, 0x08, 0x8E);
     idt_set_gate(17, (unsigned)_isr17, 0x08, 0x8E);
     idt_set_gate(18, (unsigned)_isr18, 0x08, 0x8E);
@@ -27,7 +25,6 @@ void isrs_install() {
     idt_set_gate(21, (unsigned)_isr21, 0x08, 0x8E);
     idt_set_gate(22, (unsigned)_isr22, 0x08, 0x8E);
     idt_set_gate(23, (unsigned)_isr23, 0x08, 0x8E);
-
     idt_set_gate(24, (unsigned)_isr24, 0x08, 0x8E);
     idt_set_gate(25, (unsigned)_isr25, 0x08, 0x8E);
     idt_set_gate(26, (unsigned)_isr26, 0x08, 0x8E);
@@ -47,7 +44,6 @@ unsigned char *exception_messages[] = {
     "Out of Bounds",
     "Invalid Opcode",
     "No Coprocessor",
-
     "Double Fault",
     "Coprocessor Segment Overrun",
     "Bad TSS",

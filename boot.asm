@@ -318,23 +318,23 @@ isr_common_stub:
     push es
     push fs
     push gs
-    mov ax, 0x10   ; Load the Kernel Data Segment descriptor!
+    mov ax, 0x10   ; CHANGE TO KERNEL DATA SEGMENT
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
-    mov eax, esp   ; Push us the stack
+    mov eax, esp   ; PUSH THE SAVED STACK TO USE AS PARAMETER IN C
     push eax
     mov eax, _fault_handler
-    call eax       ; A special call, preserves the 'eip' register
+    call eax       ; SPECIAL CALL TO NOT OVERWRITE EIP
     pop eax
     pop gs
     pop fs
     pop es
     pop ds
     popa
-    add esp, 8     ; Cleans up the pushed error code and pushed ISR number
-    iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
+    add esp, 8     ; CLEAN THE STACK
+    iret           ; RESTORE THE STACK AND RETURN TO WHAT IT DOES BEFORE INT
 
 
 ; ###################### IRQ PART ###########################
@@ -480,8 +480,7 @@ _irsw0:
 
 extern _irq_handler
 
-; This is a stub that we have created for IRQ based ISRs. This calls
-; '_irq_handler' in our C code. We need to create this in an 'irq.c'
+; SAME AS IRS BUT CHANGE THE HANDLER
 irq_common_stub:
     pusha   ; T
     push ds ; I
