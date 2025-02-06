@@ -14,6 +14,17 @@ extern main                      ;defined in the C file
 setGdt:
         mov eax, [esp + 4]
         lgdt [eax]
+; Update memory segments for the uses of the new GDT
+        mov ax, 0x10      ; 0x10 is the offset in the GDT to our data segment
+        mov ds, ax        ; Update Data Segment (DS)
+        mov es, ax        ; Update Extra Segment (ES)
+        mov fs, ax        ; Update FS
+        mov gs, ax        ; Update GS
+        mov ss, ax        ; Update Stack Segment (SS)
+; Update the Code Segment (CS) registry
+        jmp 0x08:setGdtEnd   ; 0x08 is the offset to our code segment: Far jump!
+
+setGdtEnd:
         ret
 
 start:
@@ -324,6 +335,169 @@ isr_common_stub:
     popa
     add esp, 8     ; Cleans up the pushed error code and pushed ISR number
     iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
+
+
+; ###################### IRQ PART ###########################
+
+global _irq0
+global _irq1
+global _irq2
+global _irq3
+global _irq4
+global _irq5
+global _irq6
+global _irq7
+global _irq8
+global _irq9
+global _irq10
+global _irq11
+global _irq12
+global _irq13
+global _irq14
+global _irq15
+
+; 32: IRQ0
+_irq0:
+    cli
+    push byte 0
+    push byte 32
+    jmp irq_common_stub
+
+; 33: IRQ1
+_irq1:
+    cli
+    push byte 0
+    push byte 33
+    jmp irq_common_stub
+
+; 34: IRQ2
+_irq2:
+    cli
+    push byte 0
+    push byte 34
+    jmp irq_common_stub
+
+; 35: IRQ3
+_irq3:
+    cli
+    push byte 0
+    push byte 35
+    jmp irq_common_stub
+
+; 36: IRQ4
+_irq4:
+    cli
+    push byte 0
+    push byte 36
+    jmp irq_common_stub
+
+; 37: IRQ5
+_irq5:
+    cli
+    push byte 0
+    push byte 37
+    jmp irq_common_stub
+
+; 38: IRQ6
+_irq6:
+    cli
+    push byte 0
+    push byte 38
+    jmp irq_common_stub
+
+; 39: IRQ7
+_irq7:
+    cli
+    push byte 0
+    push byte 39
+    jmp irq_common_stub
+
+; 40: IRQ8
+_irq8:
+    cli
+    push byte 0
+    push byte 40
+    jmp irq_common_stub
+
+; 41: IRQ9
+_irq9:
+    cli
+    push byte 0
+    push byte 41
+    jmp irq_common_stub
+
+; 42: IRQ10
+_irq10:
+    cli
+    push byte 0
+    push byte 42
+    jmp irq_common_stub
+
+; 43: IRQ11
+_irq11:
+    cli
+    push byte 0
+    push byte 43
+    jmp irq_common_stub
+
+; 44: IRQ12
+_irq12:
+    cli
+    push byte 0
+    push byte 44
+    jmp irq_common_stub
+
+; 45: IRQ13
+_irq13:
+    cli
+    push byte 0
+    push byte 45
+    jmp irq_common_stub
+
+; 46: IRQ14
+_irq14:
+    cli
+    push byte 0
+    push byte 46
+    jmp irq_common_stub
+
+; 47: IRQ15
+_irq15:
+    cli
+    push byte 0
+    push byte 47
+    jmp irq_common_stub
+
+extern _irq_handler
+
+; This is a stub that we have created for IRQ based ISRs. This calls
+; '_irq_handler' in our C code. We need to create this in an 'irq.c'
+irq_common_stub:
+    pusha   ; T
+    push ds ; I
+    push es ; I Saves current registers states
+    push fs ; I
+    push gs ; V
+
+    mov ax, 0x10 ; Load kernel data segment
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov eax, esp
+
+    push eax              ; Give the pointer to access to registers as param
+    mov eax, _irq_handler
+    call eax
+    pop eax
+
+    pop gs              ; T
+    pop fs              ; I
+    pop es              ; I Restore registers
+    pop ds              ; I
+    popa                ; V
+    add esp, 8          ; Cleans up the pushed error code and pushed ISR number
+    iret                ; Tell the CPU to back to what it was doing before int
 
 section .bss
 resb 8192                        ;8KB for stack

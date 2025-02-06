@@ -56,6 +56,9 @@ void main(void)
     init_gdt();
     idt_install();
     isrs_install();
+    irq_install();
+    // Enable CPU interruptions reception
+    __asm__ __volatile__ ("sti");
     // PRINT WELCOME AND FIRST PROMPT
     print_string("-------WELCOME TO KFS-----", RED);
     print_nl();
@@ -66,6 +69,7 @@ void main(void)
     // printIDTnGDTDebug();
 
     while (1) {
-        keyboard_handler();
+        // Avoid "pédalage dans la semoule" as we say in french
+        __asm__ __volatile__ ("hlt");
     }
 }

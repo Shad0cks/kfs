@@ -28,6 +28,7 @@ SOURCES_FILES	=	kernel.c \
 					command.c \
 					isrs.c \
 					idt.c \
+					irq.c \
 					gdt.c
 
 HEADERS			=	inc/kernel.h \

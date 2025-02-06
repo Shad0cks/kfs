@@ -26,29 +26,29 @@
 #define SEG_CODE_EXRDC     0x0E // Execute/Read, conforming
 #define SEG_CODE_EXRDCA    0x0F // Execute/Read, conforming, accessed
 
-#define GDT_CODE_PL0 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
-                     SEG_PRIV(0)     | SEG_CODE_EXRD
+#define GDT_CODE_PL0    SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+                        SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+                        SEG_PRIV(0)     | SEG_CODE_EXRD
 
-#define GDT_DATA_PL0 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
-                     SEG_PRIV(0)     | SEG_DATA_RDWR
+#define GDT_DATA_PL0    SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+                        SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+                        SEG_PRIV(0)     | SEG_DATA_RDWR
 
 #define GDT_STACK_PL0	SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-			SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
-			SEG_PRIV(0)     | SEG_DATA_RDWREXPD
+			            SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+			            SEG_PRIV(0)     | SEG_DATA_RDWREXPD
 
-#define GDT_CODE_PL3 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
-                     SEG_PRIV(3)     | SEG_CODE_EXRD
+#define GDT_CODE_PL3    SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+                        SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+                        SEG_PRIV(3)     | SEG_CODE_EXRD
 
-#define GDT_DATA_PL3 SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-                     SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
-                     SEG_PRIV(3)     | SEG_DATA_RDWR
+#define GDT_DATA_PL3    SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
+                        SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+                        SEG_PRIV(3)     | SEG_DATA_RDWR
 
 #define GDT_STACK_PL3	SEG_DESCTYPE(1) | SEG_PRES(1) | SEG_SAVL(0) | \
-			SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
-			SEG_PRIV(3)     | SEG_DATA_RDWREXPD
+			            SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
+			            SEG_PRIV(3)     | SEG_DATA_RDWREXPD
 
 // Structure d'une entrée dans la table GDT (Global Descriptor Table)
 struct GDTEntry {
@@ -69,9 +69,7 @@ struct GDTPtr
 } __attribute__((packed));
 
 /* Our GDT, with 7 entries, and finally our special GDT pointer */
-extern struct GDTEntry gdt[7];
-extern struct GDTPtr gdtp;
-
+#define GDT_ADDRESS 0x00000800
 extern void setGdt(void * gdtAddr);
 
 void init_gdt();
