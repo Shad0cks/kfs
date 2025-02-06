@@ -146,5 +146,6 @@ extern void _irq14();
 extern void _irq15();
 void irq_install();
 
+extern void _irsw0();
 
 #endif

@@ -36,6 +36,12 @@ static void halt() {
     panic();
 }
 
+static void hello() {
+    // Instruction that interrupt an arbitrary interruption number
+    //   -> Here corresponding to a reserved interruption
+    __asm__ volatile ("int $0x30");
+}
+
 void exec_command(char *command) {
     if (strcmp(command, "coucou") == 1) {
         coucou();
@@ -47,5 +53,7 @@ void exec_command(char *command) {
         triggerReservedInt();
     } else if (strcmp(command, "halt")) {
         halt();
+    } else if (strcmp(command, "hello")) {
+        hello();
     }
 }

@@ -1,9 +1,9 @@
 #include "../inc/kernel.h"
 
-void *irq_routines[16] =
+void *irq_routines[17] =
 {
     0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 /* This installs a custom IRQ handler for the given IRQ */
@@ -40,6 +40,11 @@ void irq_remap(void)
     outb(0xA1, 0x0);
 }
 
+void whatswrong() {
+    print_nl();
+    print_string("What's wrong with you ? D_D", RED);
+}
+
 /* We first remap the interrupt controllers, and then we install
 *  the appropriate ISRs to the correct entries in the IDT. This
 *  is just like installing the exception handlers */
@@ -63,7 +68,9 @@ void irq_install()
     idt_set_gate(45, (unsigned)_irq13, 0x08, 0x8E);
     idt_set_gate(46, (unsigned)_irq14, 0x08, 0x8E);
     idt_set_gate(47, (unsigned)_irq15, 0x08, 0x8E);
+    idt_set_gate(48, (unsigned)_irsw0, 0x08, 0x8E);
     irq_install_handler(1, keyboard_handler);
+    irq_install_handler(16, whatswrong);
 }
 
 /* Each of the IRQ ISRs point to this function, rather than

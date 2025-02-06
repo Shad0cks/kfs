@@ -468,6 +468,16 @@ _irq15:
     push byte 47
     jmp irq_common_stub
 
+; IRSW (InteRruption SoftWare)
+
+global _irsw0
+; 48: IRSW1
+_irsw0:
+    cli
+    push byte 0
+    push byte 48
+    jmp irq_common_stub
+
 extern _irq_handler
 
 ; This is a stub that we have created for IRQ based ISRs. This calls
