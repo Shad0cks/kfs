@@ -69,7 +69,5 @@ void main(void)
     // printIDTnGDTDebug();
 
     while (1) {
-        // Avoid "pédalage dans la semoule" as we say in french
-        __asm__ __volatile__ ("hlt");
     }
 }
